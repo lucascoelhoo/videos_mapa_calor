@@ -207,6 +207,7 @@ print(max_value)
 
 
 
+colors = reds(np.linspace(0,1,max_value+1)) #valor apenas para inicializar a variavel, depois eh alterado para max_value
 
 index=-1
 props = dict(boxstyle='round', facecolor='wheat', alpha=1)
@@ -258,8 +259,8 @@ def animate(i):
 
 anim = animation.FuncAnimation(fig, animate, init_func=init, frames=len(datas), interval=200)  #, blit=True)
 plt.rcParams['animation.ffmpeg_path'] = 'C:/Users/lucas/Desktop/UNB/Mestrado/Projetos/App-Covid-19/Outros\Espalhamento/Exemplo-Video/ffmpeg-20200528-c0f01ea-win64-static/ffmpeg-20200528-c0f01ea-win64-static/bin/ffmpeg'
-Writer = animation.FFMpegWriter(fps=8, metadata=dict(name='Espalhamento da doença COVID-19 no Distrito Federal',artist='Lucas Coelho de Almeida',year='2020',description='Feito usando processamento avançados dos informes divulgados pela SES-DF. Email: luccoelhoo@gmail.com',url='luccoelhoo@gmail.com'), bitrate=1800)
-anim.save('All-Regions-num.mp4', writer=Writer )
+Writer = animation.FFMpegWriter(fps=8, metadata=dict(name='Espalhamento da doença COVID-19 no Distrito Federal (Número de Casos)',artist='Lucas Coelho de Almeida',year='2020',description='Feito usando processamento avançados dos informes divulgados pela SES-DF. Email: luccoelhoo@gmail.com',url='luccoelhoo@gmail.com'), bitrate=1800)
+anim.save('regioes-df-casos.mp4', writer=Writer )
 print(greatest)
 
 
