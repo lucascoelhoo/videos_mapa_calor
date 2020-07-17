@@ -14,13 +14,16 @@ import numpy as np
 import unicodedata
 from scipy.interpolate import interp1d
 import csv
+from pathlib import Path
 
+input_path = str(Path.cwd()).replace("\\","/")+"/"
+#csv_directory="/home/simop/Webscrapping-SESDF/PROGRAMA-backup-dados-extraidos-covid"
 csv_directory="C:/Users/lucas/Desktop/UNB/Mestrado/Projetos/App-Covid-19/Webscrapping-SESDF/PROGRAMA-backup-dados-extraidos-covid"
-localidades_path="localidades/localidades2.csv"
+localidades_path=input_path+"localidades/localidades.csv"
 
-geojson_diretory="C:/Users/lucas/Desktop/UNB/Mestrado/Projetos/App-Covid-19/Outros/Espalhamento/Mapeamento-Brasilia/Geojsons"
+geojson_diretory=input_path+"Geojsons"
 
-titulo="Evolução do Número de Casos no DF"
+titulo="Evolução da COVID-19 no DF (Número de Óbitos)"
 
 max_value=0
 interpol = interp1d([0,max_value],[0,1])
@@ -208,9 +211,10 @@ print(max_value)
 
 
 colors = reds(np.linspace(0,1,max_value+1)) #valor apenas para inicializar a variavel, depois eh alterado para max_value
+
 index=-1
 props = dict(boxstyle='round', facecolor='wheat', alpha=1)
-ax.text(0.05, 1.02, titulo+str("    ")+str(" Data: ")+str(datas[0].strftime("%d/%m/%Y")), transform=ax.transAxes, fontsize=10,verticalalignment='top', bbox=props)
+ax.text(0, 1.02, titulo+str("    ")+str(" Data: ")+str(datas[0].strftime("%d/%m/%Y")), transform=ax.transAxes, fontsize=10,verticalalignment='top', bbox=props)
 
 # Add a colorbar
 color_map_aux = plt.cm.get_cmap('magma')
@@ -240,7 +244,7 @@ def animate(i):
     global greatest
     data=next(date_iter)
     indice=next(index_iter)
-    ax.text(0.05, 1.02, titulo+str("    ")+str(" Data: ")+str(data.strftime("%d/%m/%Y")), transform=ax.transAxes, fontsize=10,verticalalignment='top', bbox=props)
+    ax.text(0, 1.02, titulo+str("    ")+str(" Data: ")+str(data.strftime("%d/%m/%Y")), transform=ax.transAxes, fontsize=10,verticalalignment='top', bbox=props)
     print(str(indice)+" "+str(data.strftime("%Y-%m-%d")))
     for localidade,num in zip(localidades['regiao'],range(len(localidades['regiao']))): 
         if (localidade in patch_regions_array and localidade in lista_dataframes[indice]['regiao']):
@@ -252,13 +256,13 @@ def animate(i):
             if(valor>greatest):
                 greatest=valor
     print("")
-    ax.text(0.52, 0.72, str("Desenv.: ")+str("Lucas Coelho de Almeida\nEmail: luccoelhoo@gmail.com"), transform=ax.transAxes, fontsize=6,verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.03))
+    ax.text(0.01, 0.05, str("Contato: lucas.almeida@redes.unb.br\nENE/UNB - DF"), transform=ax.transAxes, fontsize=4,verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.03))
     
     return ax
 
 anim = animation.FuncAnimation(fig, animate, init_func=init, frames=len(datas), interval=200)  #, blit=True)
 plt.rcParams['animation.ffmpeg_path'] = 'C:/Users/lucas/Desktop/UNB/Mestrado/Projetos/App-Covid-19/Outros\Espalhamento/Exemplo-Video/ffmpeg-20200528-c0f01ea-win64-static/ffmpeg-20200528-c0f01ea-win64-static/bin/ffmpeg'
-Writer = animation.FFMpegWriter(fps=8, metadata=dict(name='Espalhamento da doença COVID-19 no Distrito Federal (Número de Óbitos)',artist='Lucas Coelho de Almeida',year='2020',description='Feito usando processamento avançados dos informes divulgados pela SES-DF. Email: luccoelhoo@gmail.com',url='luccoelhoo@gmail.com'), bitrate=1800)
+Writer = animation.FFMpegWriter(fps=5, metadata=dict(name='Espalhamento da doença COVID-19 no Distrito Federal (Número de óbitos)',artist='Lucas Coelho de Almeida',year='2020',description='Feito usando processamento avançados dos informes divulgados pela SES-DF. Email: luccoelhoo@gmail.com',url='luccoelhoo@gmail.com'), bitrate=1800)
 anim.save('regioes-df-obitos.mp4', writer=Writer )
 print(greatest)
 
