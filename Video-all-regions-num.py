@@ -92,7 +92,12 @@ def plotFeature(coordinates, myplot):
 
 datas=[]
 list_files_csv=[]
-for f in sorted(os.listdir(csv_directory),key=len):
+lista_sort_aux=os.listdir(csv_directory)
+for fname,index_aux_sort in zip(lista_sort_aux,range(len(lista_sort_aux))):
+    if not fname.endswith(".csv"):
+        lista_sort_aux.pop(index_aux_sort)
+lista_sort_aux.sort(key=lambda lista_sort_aux:int(lista_sort_aux.replace(".csv","")))
+for f in lista_sort_aux:
     if f.endswith(".csv"):
         with open(csv_directory+"/"+(f),"r", encoding='utf-8') as file:
             csv_reader = csv.reader(file, delimiter=',')
@@ -122,7 +127,7 @@ for i in range(len(localidades['regiao'])):
 cont_frames=0
 lista_dataframes =[]
 #print(*sorted(os.listdir(csv_directory),key=len), sep = "\n")
-for f in sorted(os.listdir(csv_directory),key=len):
+for f in lista_sort_aux:
     if(f.endswith(".csv")):
         cont_frames+=1
         df=pd.DataFrame(pd.read_csv(csv_directory+"/"+(f)))
@@ -261,8 +266,11 @@ def animate(i):
     return ax
 
 anim = animation.FuncAnimation(fig, animate, init_func=init, frames=len(datas), interval=200)  #, blit=True)
+#plt.rcParams['animation.ffmpeg_path'] = '/usr/bin/ffmpeg'
 plt.rcParams['animation.ffmpeg_path'] = 'C:/Users/lucas/Desktop/UNB/Mestrado/Projetos/App-Covid-19/Outros\Espalhamento/Exemplo-Video/ffmpeg-20200528-c0f01ea-win64-static/ffmpeg-20200528-c0f01ea-win64-static/bin/ffmpeg'
-Writer = animation.FFMpegWriter(fps=5, metadata=dict(name='Espalhamento da doença COVID-19 no Distrito Federal (Número de Casos)',artist='Lucas Coelho de Almeida',year='2020',description='Feito usando processamento avançados dos informes divulgados pela SES-DF. Email: luccoelhoo@gmail.com',url='luccoelhoo@gmail.com'), bitrate=1800)
+Writer = animation.FFMpegWriter(fps=5, metadata=dict(name='Espalhamento da doença COVID-19 no Distrito Federal (Número de Casos)',artist='Lucas Coelho de Almeida',year='2020'
+                                                     ,description='Feito usando processamento avançados dos informes divulgados pela SES-DF. Email: luccoelhoo@gmail.com',
+                                                     url='luccoelhoo@gmail.com'), bitrate=1800)
 anim.save('regioes-df-casos.mp4', writer=Writer )
 print(greatest)
 
