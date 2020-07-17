@@ -17,7 +17,7 @@ import csv
 from pathlib import Path
 
 input_path = str(Path.cwd()).replace("\\","/")+"/"
-#csv_directory="/home/simop/Webscrapping-SESDF/PROGRAMA-backup-dados-extraidos-covid"
+#csv_directory="/home/simop/webscrapping-sesdf/Webscrapping-SESDF/PROGRAMA-backup-dados-extraidos-covid"
 csv_directory="C:/Users/lucas/Desktop/UNB/Mestrado/Projetos/App-Covid-19/Webscrapping-SESDF/PROGRAMA-backup-dados-extraidos-covid"
 localidades_path=input_path+"localidades/localidades.csv"
 
