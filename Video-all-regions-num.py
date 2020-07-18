@@ -255,6 +255,8 @@ def animate(i):
         if (localidade in patch_regions_array and localidade in lista_dataframes[indice]['regiao']):
             #print(num)
             valor=int(lista_dataframes[indice].at[localidade,'num'])
+            if(localidade=='ceilandia'):
+                print(valor)
             #print(valor)
             #patch_regions_array[localidade].set_facecolor(colors[int(valor)]) #use this line for reds
             patch_regions_array[localidade].set_facecolor(colors[int(valor)]) #use this line for magma
